@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.0;
 
-import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
-import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
-import "@openzeppelin/contracts/utils/math/Math.sol";
+import '@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol';
+import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/utils/ReentrancyGuard.sol';
+import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol';
+import '@openzeppelin/contracts/utils/math/Math.sol';
+import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
 
 contract BullFarmSwap is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
@@ -42,14 +43,14 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
         uint256 _taxPercentage,
         uint256 _defaultSlippagePercentage
     ) Ownable(msg.sender) {
-        require(_uniswapRouter != address(0), "Invalid Uniswap router address");
+        require(_uniswapRouter != address(0), 'Invalid Uniswap router address');
         require(
             _taxPercentage <= 100,
-            "Tax percentage must be between 0 and 100"
+            'Tax percentage must be between 0 and 100'
         );
         require(
             _defaultSlippagePercentage <= 100,
-            "Slippage percentage must be between 0 and 100"
+            'Slippage percentage must be between 0 and 100'
         );
 
         uniswapRouter = IUniswapV2Router02(_uniswapRouter);
@@ -59,7 +60,7 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
     }
 
     modifier whenNotPaused() {
-        require(!paused, "Contract is paused");
+        require(!paused, 'Contract is paused');
         _;
     }
 
@@ -69,10 +70,10 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
         uint256 amountIn,
         uint256 slippagePercentage
     ) public view returns (uint256 amountOutMin) {
-        require(amountIn > 0, "Amount in must be greater than 0");
+        require(amountIn > 0, 'Amount in must be greater than 0');
         require(
             tokenIn != address(0) && tokenOut != address(0),
-            "Invalid token address"
+            'Invalid token address'
         );
 
         address[] memory path = new address[](2);
@@ -100,9 +101,9 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
         nonReentrant
         returns (uint256[] memory amounts)
     {
-        require(msg.value > 0, "Amount in must be greater than 0");
-        require(tokenOut != address(0), "Invalid token address");
-        require(block.timestamp <= deadline, "Transaction expired");
+        require(msg.value > 0, 'Amount in must be greater than 0');
+        require(tokenOut != address(0), 'Invalid token address');
+        require(block.timestamp <= deadline, 'Transaction expired');
 
         if (slippagePercentage == 0) {
             slippagePercentage = defaultSlippagePercentage;
@@ -110,7 +111,7 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
 
         require(
             slippagePercentage <= 100,
-            "Slippage percentage must be between 0 and 100"
+            'Slippage percentage must be between 0 and 100'
         );
 
         uint256 taxAmount = Math.ceilDiv(msg.value * taxPercentage, 100);
@@ -154,22 +155,22 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
     ) external whenNotPaused nonReentrant returns (uint256[] memory amounts) {
         require(
             percentage > 0 && percentage <= 100,
-            "Percentage must be between 1 and 100"
+            'Percentage must be between 1 and 100'
         );
-        require(tokenIn != address(0), "Invalid token address");
-        require(block.timestamp <= deadline, "Transaction expired");
+        require(tokenIn != address(0), 'Invalid token address');
+        require(block.timestamp <= deadline, 'Transaction expired');
 
         uint256 balance = IERC20(tokenIn).balanceOf(msg.sender);
         uint256 amountIn = (balance * percentage) / 100;
 
-        require(amountIn > 0, "Calculated amount in must be greater than 0");
+        require(amountIn > 0, 'Calculated amount in must be greater than 0');
 
         if (slippagePercentage == 0) {
             slippagePercentage = defaultSlippagePercentage;
         }
         require(
             slippagePercentage <= 100,
-            "Slippage percentage must be between 0 and 100"
+            'Slippage percentage must be between 0 and 100'
         );
 
         uint256 taxAmount = Math.ceilDiv(amountIn * taxPercentage, 100);
@@ -217,16 +218,16 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
         uint256 deadline,
         uint256 slippagePercentage
     ) external whenNotPaused nonReentrant returns (uint256[] memory amounts) {
-        require(amountIn > 0, "Amount in must be greater than 0");
-        require(tokenIn != address(0), "Invalid token address");
-        require(block.timestamp <= deadline, "Transaction expired");
+        require(amountIn > 0, 'Amount in must be greater than 0');
+        require(tokenIn != address(0), 'Invalid token address');
+        require(block.timestamp <= deadline, 'Transaction expired');
 
         if (slippagePercentage == 0) {
             slippagePercentage = defaultSlippagePercentage;
         }
         require(
             slippagePercentage <= 100,
-            "Slippage percentage must be between 0 and 100"
+            'Slippage percentage must be between 0 and 100'
         );
 
         uint256 taxAmount = Math.ceilDiv(amountIn * taxPercentage, 100);
@@ -276,19 +277,19 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
         uint256 deadline,
         uint256 slippagePercentage
     ) external whenNotPaused nonReentrant returns (uint256[] memory amounts) {
-        require(amountIn > 0, "Amount in must be greater than 0");
+        require(amountIn > 0, 'Amount in must be greater than 0');
         require(
             tokenIn != address(0) && tokenOut != address(0),
-            "Invalid token address"
+            'Invalid token address'
         );
-        require(block.timestamp <= deadline, "Transaction expired");
+        require(block.timestamp <= deadline, 'Transaction expired');
 
         if (slippagePercentage == 0) {
             slippagePercentage = defaultSlippagePercentage;
         }
         require(
             slippagePercentage <= 100,
-            "Slippage percentage must be between 0 and 100"
+            'Slippage percentage must be between 0 and 100'
         );
         uint256 taxAmount = Math.ceilDiv(amountIn * taxPercentage, 100);
         uint256 amountInAfterTax = amountIn - taxAmount;
@@ -331,16 +332,16 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
     }
 
     function handleTax(address tokenIn, uint256 taxAmount) internal {
-        require(taxAmount > 0, "Tax amount must be greater than 0");
+        require(taxAmount > 0, 'Tax amount must be greater than 0');
         uint256 ethReceived;
 
         if (tokenIn == uniswapRouter.WETH()) {
             require(
                 address(this).balance >= taxAmount,
-                "Insufficient ETH balance"
+                'Insufficient ETH balance'
             );
-            (bool success, ) = owner().call{value: taxAmount}("");
-            require(success, "Failed to send ETH tax to owner");
+            (bool success, ) = owner().call{value: taxAmount}('');
+            require(success, 'Failed to send ETH tax to owner');
 
             emit TaxHandled(tokenIn, taxAmount, taxAmount);
         } else {
@@ -371,10 +372,10 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
             );
 
             ethReceived = amounts[1];
-            require(ethReceived > 0, "No ETH received from swap");
+            require(ethReceived > 0, 'No ETH received from swap');
 
-            (bool success, ) = owner().call{value: ethReceived}("");
-            require(success, "Failed to send ETH tax to owner");
+            (bool success, ) = owner().call{value: ethReceived}('');
+            require(success, 'Failed to send ETH tax to owner');
 
             emit TaxHandled(tokenIn, taxAmount, ethReceived);
         }
@@ -383,7 +384,7 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
     function setTaxPercentage(uint256 _taxPercentage) external onlyOwner {
         require(
             _taxPercentage <= 100,
-            "Tax percentage must be between 0 and 100"
+            'Tax percentage must be between 0 and 100'
         );
         taxPercentage = _taxPercentage;
 
@@ -395,7 +396,7 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
     ) external onlyOwner {
         require(
             _defaultSlippagePercentage <= 100,
-            "Slippage percentage must be between 0 and 100"
+            'Slippage percentage must be between 0 and 100'
         );
         defaultSlippagePercentage = _defaultSlippagePercentage;
 
@@ -409,7 +410,7 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
 
     function emergencyWithdraw(address token) external onlyOwner {
         uint256 balance = IERC20(token).balanceOf(address(this));
-        require(balance > 0, "No token balance to withdraw");
+        require(balance > 0, 'No token balance to withdraw');
         IERC20(token).safeTransfer(owner(), balance);
         emit EmergencyWithdraw(token, balance);
     }
@@ -423,16 +424,19 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
         returns (
             string memory name,
             string memory symbol,
+            uint256 totalSupply,
             address owner,
             address pair,
-            uint256 liquidity
+            uint256 tokenLiquidity,
+            uint256 pairedTokenLiquidity
         )
     {
-        require(token != address(0), "Invalid token address");
+        require(token != address(0), 'Invalid token address');
 
         // Retrieve basic ERC20 metadata
         name = IERC20Metadata(token).name();
         symbol = IERC20Metadata(token).symbol();
+        totalSupply = IERC20(token).totalSupply();
 
         // Assuming the owner is the deployer or has been set; normally, this is handled by the token contract itself.
         owner = Ownable(token).owner();
@@ -440,9 +444,22 @@ contract BullFarmSwap is Ownable, ReentrancyGuard {
         // Get liquidity information
         pair = uniswapFactory.getPair(token, uniswapRouter.WETH());
         if (pair != address(0)) {
-            liquidity = IERC20(token).balanceOf(pair);
+            // Get reserves from the pair
+            (uint112 reserve0, uint112 reserve1, ) = IUniswapV2Pair(pair)
+                .getReserves();
+
+            // Get token liquidity (assuming token is token0 in the pair)
+            address token0 = IUniswapV2Pair(pair).token0();
+            if (token0 == token) {
+                tokenLiquidity = reserve0;
+                pairedTokenLiquidity = reserve1; // This is the WETH or other paired token's liquidity
+            } else {
+                tokenLiquidity = reserve1;
+                pairedTokenLiquidity = reserve0;
+            }
         } else {
-            liquidity = 0; // No liquidity found
+            tokenLiquidity = 0; // No liquidity found
+            pairedTokenLiquidity = 0;
         }
     }
 
