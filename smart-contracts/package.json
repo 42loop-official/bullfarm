@@ -4,6 +4,7 @@
     "chai": "^4.5.0",
     "ethers": "^5.7.2",
     "sinon": "^18.0.0",
+    "truffle-flattener": "^1.6.0",
     "truffle-plugin-verify": "^0.6.7"
   },
   "dependencies": {
