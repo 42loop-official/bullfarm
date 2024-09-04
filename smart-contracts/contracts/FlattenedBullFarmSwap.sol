@@ -163,7 +163,7 @@ interface IUniswapV2Factory {
 
 // File: @openzeppelin/contracts/utils/Context.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)
 
 pragma solidity ^0.8.20;
@@ -194,7 +194,7 @@ abstract contract Context {
 
 // File: @openzeppelin/contracts/access/Ownable.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)
 
 pragma solidity ^0.8.20;
@@ -295,7 +295,7 @@ abstract contract Ownable is Context {
 
 // File: @openzeppelin/contracts/utils/ReentrancyGuard.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/ReentrancyGuard.sol)
 
 pragma solidity ^0.8.20;
@@ -382,7 +382,7 @@ abstract contract ReentrancyGuard {
 
 // File: @openzeppelin/contracts/token/ERC20/IERC20.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/IERC20.sol)
 
 pragma solidity ^0.8.20;
@@ -464,7 +464,7 @@ interface IERC20 {
 
 // File: @openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/extensions/IERC20Permit.sol)
 
 pragma solidity ^0.8.20;
@@ -557,7 +557,7 @@ interface IERC20Permit {
 
 // File: @openzeppelin/contracts/utils/Address.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/Address.sol)
 
 pragma solidity ^0.8.20;
@@ -719,7 +719,7 @@ library Address {
 
 // File: @openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/utils/SafeERC20.sol)
 
 pragma solidity ^0.8.20;
@@ -838,7 +838,7 @@ library SafeERC20 {
 
 // File: @openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/extensions/IERC20Metadata.sol)
 
 pragma solidity ^0.8.20;
@@ -865,7 +865,7 @@ interface IERC20Metadata is IERC20 {
 
 // File: @openzeppelin/contracts/utils/math/Math.sol
 
-// SPDX-License-Identifier: MIT
+
 // OpenZeppelin Contracts (last updated v5.0.0) (utils/math/Math.sol)
 
 pragma solidity ^0.8.20;
@@ -1283,7 +1283,7 @@ library Math {
 
 // File: contracts/BullFarmSwap.sol
 
-// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.0;
 
 
