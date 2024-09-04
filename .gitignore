@@ -1,0 +1,88 @@
+# compiled output
+/dist
+/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.env
+.env.local
+.env.production
+.env.devnet
+
+
+# Ignore node_modules folder
+node_modules/
+
+# Ignore build artifacts
+build/
+artifacts/
+cache/
+
+# Ignore dependencies installed via npm or yarn
+package-lock.json
+yarn.lock
+
+# Ignore environment variables and configuration files
+.env
+.env.*
+
+# Ignore truffle-related artifacts
+*.log
+truffle.js
+truffle-config.js
+
+# Ignore hardhat artifacts
+coverage/
+coverage.json
+hardhat.config.js
+hardhat.config.ts
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore IntelliJ IDEA settings
+.idea/
+
+# Ignore macOS specific files
+.DS_Store
+
+# Ignore log files
+*.log
+
+# Ignore any Solidity output files
+*.tsbuildinfo
+
+# Ignore hidden system files
+Thumbs.db
+
+docker-compose.yml
+constructor_args.js
